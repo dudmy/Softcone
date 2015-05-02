@@ -1,0 +1,18 @@
+# Site settings
+title: Softcone
+header-img: public/img/home-bg.jpg
+email: 
+description: "HSU 2015 Software Engineering Team Blog"
+baseurl: "/Softcone"
+url: "http://dudmy.github.io/Softcone"
+twitter_username: 
+github_username1: dudmy
+github_username2: lake1218
+facebook_username: 
+
+# Build settings
+markdown: kramdown
+highlighter: pygments
+permalink: pretty
+paginate: 5
+exclude: ["public/less","node_modules","Gruntfile.js","package.json","README.md"]
