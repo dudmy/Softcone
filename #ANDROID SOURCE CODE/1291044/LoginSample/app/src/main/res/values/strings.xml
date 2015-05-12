@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">LoginSample</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="shop">Shop</string>
+    <string name="branch">Branch</string>
+    <string name="password">Password</string>
+    <string name="loginBtn">Login</string>
+    <string name="signUpBtn">Sign Up</string>
+
+    <string name="logoutBtn">Logout</string>
+    <string name="welcome">Welcome!</string>
+</resources>
