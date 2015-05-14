@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">편해?편앱!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="cs_name">
+        <item>GS25</item>
+        <item>CU</item>
+        <item>미니스톱</item>
+        <item>세븐일레븐</item>
+    </string-array>
+
+    <string-array name="branch">
+        <item>성북한성대점</item>
+        <item>미아점</item>
+        <item>노원점</item>
+    </string-array>
+
+</resources>
