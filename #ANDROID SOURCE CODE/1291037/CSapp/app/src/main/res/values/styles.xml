@@ -21,4 +21,9 @@
         <item name="background">@drawable/actionbar</item>
     </style>
 
+    <style name="StyleButton" parent="Material.Drawable.Ripple.Touch.Light">
+        <item name="android:background">#0098cb</item>
+        <item name="rd_rippleColor">#33000000</item>
+    </style>
+
 </resources>

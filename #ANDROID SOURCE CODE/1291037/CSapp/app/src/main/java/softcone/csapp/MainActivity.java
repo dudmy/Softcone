@@ -33,6 +33,7 @@ public class MainActivity extends ActionBarActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         adapter = new MyPagerAdapter(getSupportFragmentManager());
 
+        pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
 
         final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
@@ -42,7 +43,6 @@ public class MainActivity extends ActionBarActivity {
         tabs.setViewPager(pager);
 
         tabs.setIndicatorColor(currentColor);
-
     }
 
 
@@ -70,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
+        // 메인화면 탭 제목
         private final String[] TITLES = { "일별", "주별", "월별" };
 
         public MyPagerAdapter(FragmentManager fm) {

@@ -15,9 +15,6 @@ public class LoadingActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        // 앱 아이디, 클라이언트 키 초기화
-        //Parse.initialize(this, "ZVDVs21M1bzc7BncHrpMuwnwxzCK6NZX1EBWIBif", "klzIkZZs5c5zxYsn2yUMVl54CVGtyNUlUU9b4Use");
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

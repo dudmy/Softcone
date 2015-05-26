@@ -15,4 +15,6 @@
         <item>노원점</item>
     </string-array>
 
+    <string name="footer">The Footer</string>
+
 </resources>
