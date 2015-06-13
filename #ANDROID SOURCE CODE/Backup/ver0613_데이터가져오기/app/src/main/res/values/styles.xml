@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+
+        <item name="colorPrimary">#0098cb</item>
+        <item name="colorPrimaryDark">#0098cb</item>
+        <item name="colorAccent">#0098cb</item>
+        <item name="colorControlHighlight">#0098cb</item>
+        <item name="colorControlNormal">#0098cb</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/actionbar</item>
+        <!-- Support library compatibility -->
+        <item name="background">@drawable/actionbar</item>
+    </style>
+
+    <style name="StyleButton" parent="Material.Drawable.Ripple.Touch.Light">
+        <item name="android:background">#0098cb</item>
+        <item name="rd_rippleColor">#33000000</item>
+    </style>
+
+</resources>
