@@ -7,13 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-<<<<<<< HEAD
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
-=======
->>>>>>> 5f4edfe2180e73ed9e9db8481d13ac3e8f04b105
 import java.util.ArrayList;
 
 import softcone.csapp.R;
@@ -37,7 +34,6 @@ public class NoticeFragment extends Fragment {
 
         listView = (ExpandingListView) v.findViewById(R.id.lv_notice);
         arrayList = new ArrayList<NoticeData>();
-<<<<<<< HEAD
         adapter = new NoticeAdapter(getActivity(), arrayList);
 
         try {
@@ -61,16 +57,6 @@ public class NoticeFragment extends Fragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-=======
-
-
-        arrayList.add(new NoticeData(true, "택배기계 고장", "월요일 즈음에 고쳐주신다고 합니다.", "2015.06.12", 170));
-        arrayList.add(new NoticeData(true, "일할 때 핸드폰 만지지 말 것", "걸리면 자름^___^", "2015.06.14", 170));
-
-        adapter = new NoticeAdapter(getActivity(), arrayList);
-
-        listView.setAdapter(adapter);
->>>>>>> 5f4edfe2180e73ed9e9db8481d13ac3e8f04b105
 
         return v;
     }

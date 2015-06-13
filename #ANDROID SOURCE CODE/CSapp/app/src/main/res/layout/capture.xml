@@ -25,11 +25,7 @@
 		android:layout_height="fill_parent"
 		android:layout_centerInParent="true"/>
 
-<<<<<<< HEAD
 	<softcone.csapp.android.ViewfinderView
-=======
-	<com.google.zxing.client.android.ViewfinderView
->>>>>>> 5f4edfe2180e73ed9e9db8481d13ac3e8f04b105
 		android:id="@+id/viewfinder_view"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"

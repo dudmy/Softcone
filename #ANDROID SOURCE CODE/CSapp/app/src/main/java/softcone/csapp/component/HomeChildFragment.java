@@ -11,7 +11,10 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import softcone.csapp.R;
 import softcone.csapp.list.ItemAdapter;
@@ -47,6 +50,7 @@ public class HomeChildFragment extends Fragment {
 
         position = getArguments().getInt(ARG_POSITION);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -55,10 +59,33 @@ public class HomeChildFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.lv_home);
         adapter = new ItemAdapter(v.getContext(), datas);
 
+        // 현재 날짜 가져오기
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
         try {
 
             // 서버에 Item class 데이터 요청
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Item");
+
+            switch (position) {
+                case 0:
+                    query.whereEqualTo("day", format.format(now));
+                    break;
+
+                case 1:
+                    // 한 주의 마지막 토요일
+                    cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                    // 오늘 날짜 이후
+                    query.whereGreaterThanOrEqualTo("day", format.format(now));
+                    // 이번 주 마지막 날 이전
+                    query.whereLessThanOrEqualTo("day", format.format(cal.getTime()));
+                    break;
+
+                case 2:
+                    break;
+            }
 
             // 읽어온 데이터를 List 에 저장
             datas.addAll(query.find());
