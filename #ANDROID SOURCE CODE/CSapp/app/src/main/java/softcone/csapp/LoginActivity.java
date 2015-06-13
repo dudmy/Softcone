@@ -24,6 +24,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -36,10 +37,12 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
         btnLogin.setOnClickListener(this);
         btnSignUp.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
 
             // Login Button

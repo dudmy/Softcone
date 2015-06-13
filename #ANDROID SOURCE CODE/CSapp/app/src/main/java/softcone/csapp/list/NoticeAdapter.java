@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import softcone.csapp.R;
@@ -70,7 +71,8 @@ public class NoticeAdapter extends ArrayAdapter<NoticeData> {
         notice_info.setText(object.getNotice_info());
 
         TextView date = (TextView)convertView.findViewById(R.id.date);
-        date.setText((CharSequence) object.getDate());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        date.setText(format.format(object.getDate()));
 
         convertView.setLayoutParams(new ListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
                 AbsListView.LayoutParams.WRAP_CONTENT));

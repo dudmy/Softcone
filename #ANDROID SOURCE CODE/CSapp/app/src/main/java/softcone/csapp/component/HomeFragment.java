@@ -39,6 +39,7 @@ public class HomeFragment extends Fragment {
         // fragment 안에 fragment 부르기
         adapter = new MyPagerAdapter(getChildFragmentManager());
 
+        // 한번에 3 페이지 모두 불러오기
         pager.setOffscreenPageLimit(2);
         pager.setAdapter(adapter);
 
@@ -55,7 +56,7 @@ public class HomeFragment extends Fragment {
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
         // 메인화면 탭 제목
-        private final String[] TITLES = { "        일별        ", "        주별        ", "        월별        " };
+        private final String[] TITLES = { "        일별        ", "        주별        ", "        전체        " };
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);

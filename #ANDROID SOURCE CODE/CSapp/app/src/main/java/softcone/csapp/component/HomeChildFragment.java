@@ -27,14 +27,11 @@ public class HomeChildFragment extends Fragment {
     private static final String ARG_POSITION = "position";
     private int position;
 
-    public static View v;
-
     private ListView listView;
+    private ItemAdapter adapter;
 
     // parse.com 에서 읽어온 object 들을 저장할 List
-    ArrayList<ParseObject> datas = new ArrayList<>();
-
-    private ItemAdapter adapter;
+    private ArrayList<ParseObject> datas = new ArrayList<>();
 
     public static HomeChildFragment newInstance(int position) {
         HomeChildFragment f = new HomeChildFragment();
@@ -54,12 +51,12 @@ public class HomeChildFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_home, container, false);
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         listView = (ListView) v.findViewById(R.id.lv_home);
         adapter = new ItemAdapter(v.getContext(), datas);
 
-        // 현재 날짜 가져오기
+        // 오늘 날짜 가져오기
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -71,11 +68,12 @@ public class HomeChildFragment extends Fragment {
 
             switch (position) {
                 case 0:
+                    // 오늘 날짜에 해당하는 것만 검색
                     query.whereEqualTo("day", format.format(now));
                     break;
 
                 case 1:
-                    // 한 주의 마지막 토요일
+                    // 해당 주의 마지막 날짜 : 토요일
                     cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
                     // 오늘 날짜 이후
                     query.whereGreaterThanOrEqualTo("day", format.format(now));
@@ -84,6 +82,8 @@ public class HomeChildFragment extends Fragment {
                     break;
 
                 case 2:
+                    // 오늘 날짜 이후
+                    query.whereGreaterThanOrEqualTo("day", format.format(now));
                     break;
             }
 

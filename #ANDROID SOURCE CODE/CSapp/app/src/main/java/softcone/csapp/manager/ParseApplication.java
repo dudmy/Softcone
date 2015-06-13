@@ -31,6 +31,7 @@ public class ParseApplication extends Application {
 
         ParseACL.setDefaultACL(defaultACL, true);
 
+        // 푸시를 위해 추가
         ParsePush.subscribeInBackground("", new SaveCallback() {
             @Override
             public void done(ParseException e) {

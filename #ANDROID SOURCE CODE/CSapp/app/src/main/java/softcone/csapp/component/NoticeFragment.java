@@ -58,10 +58,8 @@ public class NoticeFragment extends Fragment {
 
             for (ParseObject object : datas) {
                 arrayList.add(new NoticeData(object.getBoolean("toggle"), object.getString("title"), object.getString("info"),
-                        object.getDate("createdAt"), 170));
+                        object.getCreatedAt(), 170));
             }
-
-            datas.clear();
 
         } catch (ParseException e) {
             e.printStackTrace();

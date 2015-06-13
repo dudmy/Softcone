@@ -12,8 +12,8 @@ import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
-public class InsertActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
-{
+public class InsertActivity extends ActionBarActivity implements
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private TextView tv_item_code;
     private Button btn_time;
@@ -25,15 +25,16 @@ public class InsertActivity extends ActionBarActivity implements DatePickerDialo
     private String text_date="";
     private String text_time="";
 
-
     final Calendar calendar = Calendar.getInstance();
 
-    final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), true);
-    final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false, false);
+    final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), true);
+    final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE), false, false);
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
 
@@ -80,5 +81,6 @@ public class InsertActivity extends ActionBarActivity implements DatePickerDialo
         text_time = hourOfDay + "시 " + minute + "분";
         tv_time.setText(text_date + text_time);
     }
+
 
 }

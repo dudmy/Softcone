@@ -21,5 +21,7 @@ package softcone.csapp.list;
  * layout experiences a size change.
  */
 public interface OnSizeChangedListener {
+
     public void onSizeChanged(int newHeight);
+
 }

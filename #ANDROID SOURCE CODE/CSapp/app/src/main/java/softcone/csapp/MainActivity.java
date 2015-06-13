@@ -22,7 +22,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public final static int FRAGMENT_OPTION = 1;
     public final static int FRAGMENT_HOME = 2;
     public final static int FRAGMENT_SEARCH = 3;
-    public final static int FRAGMENT_BARCODE = 4;
 
     int currentFragment;
 

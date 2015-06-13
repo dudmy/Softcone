@@ -26,10 +26,7 @@ public class SearchFragment extends Fragment {
     private SearchView search;
 
     private ListView listView;
-
-    // parse.com 에서 읽어온 object 들을 저장할 List
-    ArrayList<ParseObject> datas = new ArrayList<>();
-
+    private ArrayList<ParseObject> datas = new ArrayList<>();
     public SearchAdapter adapter;
 
     @Override
@@ -56,7 +53,8 @@ public class SearchFragment extends Fragment {
                 // 서버에 Item class 데이터 요청
                 ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Item");
 
-                parseQuery.whereEqualTo("name", query);
+                // 서버에 이름이 포함되는 데이터만 검색
+                parseQuery.whereContains("name", query);
 
                 // 읽어온 데이터를 List 에 저장
                 datas.addAll(parseQuery.find());
@@ -72,27 +70,6 @@ public class SearchFragment extends Fragment {
 
         @Override
         public boolean onQueryTextChange(String newText) {
-
-            /*
-            try {
-
-                // 서버에 Item class 데이터 요청
-                ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Item");
-
-                parseQuery.whereContains("name", newText);
-
-                // 읽어온 데이터를 List 에 저장
-                datas.addAll(parseQuery.find());
-
-                for (ParseObject object : datas) {
-
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            */
-
             return false;
         }
     };

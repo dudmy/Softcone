@@ -32,24 +32,29 @@ public class LoadingActivity extends Activity {
                     finish();
 
                 } else {
+
                     // If current user is NOT anonymous user
                     // Get current user data from Parse.com
                     ParseUser currentUser = ParseUser.getCurrentUser();
 
                     if (currentUser != null) {
+
                         // Send logged in users to MainActivity.class
                         Intent intent = new Intent(getBaseContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
+
                     } else {
+
                         // Send user to LoginActivity.class
                         Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                         startActivity(intent);
                         finish();
+
                     }
                 }
 
             }
-        }, 2000);
+        }, 1000);
     }
 }
