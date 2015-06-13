@@ -28,5 +28,8 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.github.rey5137:material:1.1.0'
     compile files('libs/core.jar')
+<<<<<<< HEAD
     compile 'com.github.bumptech.glide:glide:3.6.0'
+=======
+>>>>>>> 5f4edfe2180e73ed9e9db8481d13ac3e8f04b105
 }
