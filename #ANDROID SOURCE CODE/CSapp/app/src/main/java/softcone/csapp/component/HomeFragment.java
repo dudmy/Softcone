@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
         // 메인화면 탭 제목
-        private final String[] TITLES = { "일별", "주별", "월별" };
+        private final String[] TITLES = { "        일별        ", "        주별        ", "        월별        " };
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
