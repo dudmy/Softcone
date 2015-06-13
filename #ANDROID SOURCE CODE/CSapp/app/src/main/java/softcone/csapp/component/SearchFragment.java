@@ -72,6 +72,27 @@ public class SearchFragment extends Fragment {
 
         @Override
         public boolean onQueryTextChange(String newText) {
+
+            /*
+            try {
+
+                // 서버에 Item class 데이터 요청
+                ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Item");
+
+                parseQuery.whereContains("name", newText);
+
+                // 읽어온 데이터를 List 에 저장
+                datas.addAll(parseQuery.find());
+
+                for (ParseObject object : datas) {
+
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            */
+
             return false;
         }
     };
