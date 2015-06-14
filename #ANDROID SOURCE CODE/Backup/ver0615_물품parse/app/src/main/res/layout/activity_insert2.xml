@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,19 +32,14 @@
             android:gravity="center_horizontal"
             android:layout_gravity="center_vertical">
 
-            <com.rey.material.widget.EditText
-                style="@style/Material.Widget.EditText.Light"
-                android:id="@+id/et_item_name"
+            <TextView
+                android:id="@+id/tv_item_name"
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:textColor="#FF000000"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                android:hint="제품명을 입력하세요!"
-                app:et_inputId="@+id/textfield_et_label_input"
-                app:et_labelTextColor="#0098cb"
-                app:et_supportMode="none"
-                android:gravity="center_horizontal"/>
+                android:text="품명"
+                android:textSize="17dp"
+                android:gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/tv_item_code"

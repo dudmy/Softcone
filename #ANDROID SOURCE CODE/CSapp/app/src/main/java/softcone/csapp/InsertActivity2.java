@@ -6,17 +6,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
+import com.parse.ParseObject;
 import com.rey.material.widget.Button;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
-public class InsertActivity extends ActionBarActivity implements
+public class InsertActivity2 extends ActionBarActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private TextView tv_item_code;
-    private com.rey.material.widget.EditText et_item_name;
+    private TextView tv_item_name;
     private Button btn_time;
     private TextView tv_time;
     private Button btn_insert;
@@ -40,9 +41,10 @@ public class InsertActivity extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_insert);
+        setContentView(R.layout.activity_insert2);
 
-        et_item_name = (com.rey.material.widget.EditText)findViewById(R.id.et_item_name);
+        tv_item_name = (TextView)findViewById(R.id.tv_item_name);
+        tv_item_name.setText(BarcodeActivity.life_object.getString("name"));
         tv_item_code = (TextView)findViewById(R.id.tv_item_code);
         tv_item_code.setText(BarcodeActivity.item_code);
 
@@ -73,15 +75,15 @@ public class InsertActivity extends ActionBarActivity implements
         btn_insert = (Button)findViewById(R.id.btn_insert);
         btn_insert.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {/*
+            public void onClick(View v) {
                 ParseObject life = new ParseObject("Life");
-                life.put("barcode", BarcodeActivity.item_code);
+                life.put("barcode", BarcodeActivity.life_object.getString("barcode"));
                 life.put("image", BarcodeActivity.life_object.getParseFile("image"));
-                life.put("name", et_item_name.getText().toString());
+                life.put("name", BarcodeActivity.life_object.getString("name"));
                 life.put("day", life_date);
                 life.put("time", life_time);
                 life.saveInBackground();
-                finish();*/
+                finish();
             }
         });
 
