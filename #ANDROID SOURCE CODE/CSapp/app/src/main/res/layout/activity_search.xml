@@ -4,15 +4,16 @@
     android:orientation="vertical">
 
     <SearchView
+        android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="검색하세요"
-        android:id="@+id/searchView" />
+        android:queryHint="제품명을 검색하세요"
+        android:iconifiedByDefault="false" />
 
     <ListView
+        android:id="@+id/lv_search"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:id="@+id/lv_search"
         android:cacheColorHint="#00000000" />
 
 </LinearLayout>

@@ -62,10 +62,10 @@ public class NoticeAdapter extends ArrayAdapter<NoticeData> {
         linearLayout.setLayoutParams(linearLayoutParams);
 
         ToggleButton toogle = (ToggleButton)convertView.findViewById(R.id.toggle);
-        toogle.setChecked(object.getToggle());
+        toogle.setChecked(object.isToggle());
 
         TextView notice_title = (TextView)convertView.findViewById(R.id.notice_title);
-        notice_title.setText(object.getNotie_title());
+        notice_title.setText(object.getNotice_title());
 
         TextView notice_info = (TextView)convertView.findViewById(R.id.notice_info);
         notice_info.setText(object.getNotice_info());

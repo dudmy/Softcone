@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -15,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import softcone.csapp.R;
 import softcone.csapp.list.ItemAdapter;
@@ -61,40 +63,41 @@ public class HomeChildFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        try {
+        // 서버에 Item class 데이터 요청
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Item");
 
-            // 서버에 Item class 데이터 요청
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Item");
+        switch (position) {
+            case 0:
+                // 오늘 날짜에 해당하는 것만 검색
+                query.whereEqualTo("day", format.format(now));
+                break;
 
-            switch (position) {
-                case 0:
-                    // 오늘 날짜에 해당하는 것만 검색
-                    query.whereEqualTo("day", format.format(now));
-                    break;
+            case 1:
+                // 해당 주의 마지막 날짜 : 토요일
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+                // 오늘 날짜 이후
+                query.whereGreaterThanOrEqualTo("day", format.format(now));
+                // 이번 주 마지막 날 이전
+                query.whereLessThanOrEqualTo("day", format.format(cal.getTime()));
+                break;
 
-                case 1:
-                    // 해당 주의 마지막 날짜 : 토요일
-                    cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-                    // 오늘 날짜 이후
-                    query.whereGreaterThanOrEqualTo("day", format.format(now));
-                    // 이번 주 마지막 날 이전
-                    query.whereLessThanOrEqualTo("day", format.format(cal.getTime()));
-                    break;
-
-                case 2:
-                    // 오늘 날짜 이후
-                    query.whereGreaterThanOrEqualTo("day", format.format(now));
-                    break;
-            }
-
-            // 읽어온 데이터를 List 에 저장
-            datas.addAll(query.find());
-
-            listView.setAdapter(adapter);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
+            case 2:
+                // 오늘 날짜 이후
+                query.whereGreaterThanOrEqualTo("day", format.format(now));
+                break;
         }
+
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null) {
+                    // 읽어온 데이터를 List 에 저장
+                    datas.addAll(parseObjects);
+
+                    listView.setAdapter(adapter);
+                }
+            }
+        });
 
         return v;
     }

@@ -12,18 +12,21 @@ import softcone.csapp.component.HomeFragment;
 import softcone.csapp.component.NoticeFragment;
 import softcone.csapp.component.OptionFragment;
 import softcone.csapp.component.SearchFragment;
+import softcone.csapp.manager.BackPressClose;
 
 /**
  * Created by YuJin on 2015-06-09.
  */
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
 
+    private BackPressClose backPressClose;
+
     public final static int FRAGMENT_NOTICE = 0;
     public final static int FRAGMENT_OPTION = 1;
     public final static int FRAGMENT_HOME = 2;
     public final static int FRAGMENT_SEARCH = 3;
 
-    int currentFragment;
+    private int currentFragment;
 
     private Button btn_notice;
     private Button btn_option;
@@ -33,8 +36,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        backPressClose = new BackPressClose(this);
 
         btn_notice = (Button) findViewById(R.id.btn_notice);
         btn_option = (Button) findViewById(R.id.btn_option);
@@ -64,6 +70,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         // Commit the transaction
         transaction.commit();
+
     }
 
     private Fragment getFragment(int index) {
@@ -117,5 +124,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+    // 뒤로가기 두 번 누를 시 호출
+    @Override
+    public void onBackPressed() {
+        backPressClose.BackClose();
+    }
 
 }

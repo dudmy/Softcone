@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class NoticeData implements OnSizeChangedListener {
 
+    private String objectId;
     private boolean toggle;
     private String notice_title;
     private String notice_info;
@@ -16,7 +17,8 @@ public class NoticeData implements OnSizeChangedListener {
     private int mCollapsedHeight;
     private int mExpandedHeight;
 
-    public NoticeData(boolean toggle, String notice_title, String notice_info, Date date, int collapsedHeight){
+    public NoticeData(String objectId, boolean toggle, String notice_title, String notice_info, Date date, int collapsedHeight){
+        this.objectId = objectId;
         this.toggle = toggle;
         this.notice_title = notice_title;
         this.notice_info = notice_info;
@@ -27,11 +29,15 @@ public class NoticeData implements OnSizeChangedListener {
         mExpandedHeight = -1;
     }
 
-    public boolean getToggle() {
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public boolean isToggle() {
         return toggle;
     }
 
-    public String getNotie_title() {
+    public String getNotice_title() {
         return notice_title;
     }
 
