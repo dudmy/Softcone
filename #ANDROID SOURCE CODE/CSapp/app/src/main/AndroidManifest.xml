@@ -124,11 +124,6 @@
             android:enabled="true">
         </service>
 
-
-        <!-- 파스 푸시를 위한 gcm sender id 등록 -->
-        <meta-data android:name="com.parse.push.gcm_sender_id"
-            android:value="id:225733705542"/>;
-
     </application>
 
 </manifest>

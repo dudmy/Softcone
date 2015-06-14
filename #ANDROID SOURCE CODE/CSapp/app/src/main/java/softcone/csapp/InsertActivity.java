@@ -3,6 +3,7 @@ package softcone.csapp;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
@@ -12,17 +13,22 @@ import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
+/**
+ * 제품 없을 경우 액티비티
+ */
 public class InsertActivity extends ActionBarActivity implements
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-
-    private TextView tv_item_code;
-    private com.rey.material.widget.EditText et_item_name;
-    private Button btn_time;
-    private TextView tv_time;
-    private Button btn_insert;
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, View.OnClickListener {
 
     public static final String DATEPICKER_TAG = "datepicker";
     public static final String TIMEPICKER_TAG = "timepicker";
+
+    private ImageView img_camera;
+    private TextView tv_item_code;
+    private TextView tv_time;
+    private com.rey.material.widget.EditText et_item_name;
+
+    private Button btn_time;
+    private Button btn_insert;
 
     private String text_date="";
     private String text_time="";
@@ -48,15 +54,10 @@ public class InsertActivity extends ActionBarActivity implements
 
         tv_time = (TextView)findViewById(R.id.tv_time);
         btn_time = (Button)findViewById(R.id.btn_time);
-        btn_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePickerDialog.setVibrate(true);
-                datePickerDialog.setYearRange(1985, 2028);
-                datePickerDialog.setCloseOnSingleTapDay(false);
-                datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
-            }
-        });
+        btn_insert = (Button)findViewById(R.id.btn_insert);
+
+        btn_time.setOnClickListener(this);
+        btn_insert.setOnClickListener(this);
 
         if (savedInstanceState != null) {
             DatePickerDialog dpd = (DatePickerDialog) getSupportFragmentManager().findFragmentByTag(DATEPICKER_TAG);
@@ -70,10 +71,21 @@ public class InsertActivity extends ActionBarActivity implements
             }
         }
 
-        btn_insert = (Button)findViewById(R.id.btn_insert);
-        btn_insert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {/*
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.btn_time:
+                datePickerDialog.setVibrate(true);
+                datePickerDialog.setYearRange(1985, 2028);
+                datePickerDialog.setCloseOnSingleTapDay(false);
+                datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
+                break;
+
+            case R.id.btn_insert:
+                /*
                 ParseObject life = new ParseObject("Life");
                 life.put("barcode", BarcodeActivity.item_code);
                 life.put("image", BarcodeActivity.life_object.getParseFile("image"));
@@ -81,11 +93,12 @@ public class InsertActivity extends ActionBarActivity implements
                 life.put("day", life_date);
                 life.put("time", life_time);
                 life.saveInBackground();
-                finish();*/
-            }
-        });
-
+                finish();
+                */
+                break;
+        }
     }
+
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {

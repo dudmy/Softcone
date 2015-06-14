@@ -11,6 +11,8 @@ import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import softcone.csapp.R;
+
 /**
  * Created by YuJin on 2015-06-09.
  */
@@ -22,7 +24,7 @@ public class ParseApplication extends Application {
 
         // Add your initialization code here.
         // Application ID, Client Key
-        Parse.initialize(this, "ZVDVs21M1bzc7BncHrpMuwnwxzCK6NZX1EBWIBif", "klzIkZZs5c5zxYsn2yUMVl54CVGtyNUlUU9b4Use");
+        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
 
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
@@ -32,8 +34,8 @@ public class ParseApplication extends Application {
 
         ParseACL.setDefaultACL(defaultACL, true);
 
-        // 푸시를 위해 추가
-        ParsePush.subscribeInBackground("", new SaveCallback() {
+        // 푸시를 위해 추가. Channels 등록
+        ParsePush.subscribeInBackground("csapp", new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {

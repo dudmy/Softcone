@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 dependencies {
@@ -29,4 +33,5 @@ dependencies {
     compile 'com.github.rey5137:material:1.1.0'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile files('libs/core.jar')
+    compile 'cn.pedant.sweetalert:library:1.3'
 }

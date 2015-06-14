@@ -1,10 +1,12 @@
 package softcone.csapp.component;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
@@ -18,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import softcone.csapp.R;
 import softcone.csapp.list.ItemAdapter;
 
@@ -57,6 +60,21 @@ public class HomeChildFragment extends Fragment {
 
         listView = (ListView) v.findViewById(R.id.lv_home);
         adapter = new ItemAdapter(v.getContext(), datas);
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                alertDelete(position);
+                return false;
+            }
+        });
+
+        return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         // 오늘 날짜 가져오기
         Date now = new Date();
@@ -99,7 +117,45 @@ public class HomeChildFragment extends Fragment {
             }
         });
 
-        return v;
     }
+
+
+    private void alertDelete(final int po) {
+        SweetAlertDialog dialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE);
+        dialog.setTitleText("정말 삭제하시겠습니까?")
+                .setContentText("제품을 폐기했는지 확인하세요.")
+                .setCancelText("취소")
+                .setConfirmText("삭제")
+                .showCancelButton(true)
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.setTitleText("삭제 취소!")
+                                .setContentText("제품의 폐기여부를 확인하세요.")
+                                .setConfirmText("OK")
+                                .showCancelButton(false)
+                                .setCancelClickListener(null)
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    }
+                })
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.setTitleText("삭제 완료!")
+                                .setContentText("해당 제품을 삭제했습니다.")
+                                .setConfirmText("OK")
+                                .showCancelButton(false)
+                                .setCancelClickListener(null)
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+
+                        // 데이터베이스에서 지우기
+                        datas.get(po).deleteInBackground();
+                    }
+                })
+                .show();
+    }
+
 
 }
