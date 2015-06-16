@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="50dp">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <com.parse.ParseImageView
+            android:id="@+id/item_img"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:minHeight="80dp"
+            android:minWidth="80dp"
+            android:layout_weight="1"
+            android:src="@drawable/no_img"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="3"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center_vertical">
+
+            <com.rey.material.widget.EditText
+                style="@style/Material.Widget.EditText.Light"
+                android:id="@+id/et_item_name"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textColor="#FF000000"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                android:hint="제품명을 입력하세요!"
+                app:et_inputId="@+id/textfield_et_label_input"
+                app:et_labelTextColor="#0098cb"
+                app:et_supportMode="none"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:id="@+id/tv_item_code"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="8192038271"
+                android:textSize="17dp"
+                android:gravity="center_horizontal" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.rey.material.widget.Button
+        style="@style/StyleButton"
+        android:id="@+id/btn_camera"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.2"
+        android:background="#dddddd"
+        android:textColor="#FF000000"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+        android:text="사진 등록"
+        android:textSize="15dp"
+        android:layout_marginLeft="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="유통기한을 등록하세요!"
+        android:textColor="#0098cb"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="20dp" />
+
+    <com.rey.material.widget.Button
+        style="@style/StyleButton"
+        android:id="@+id/btn_time"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:background="#dddddd"
+        android:textColor="#FF000000"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+        android:text="유통기한 등록"
+        android:textSize="17dp"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"/>
+
+    <com.rey.material.widget.Button
+        style="@style/StyleButton"
+        android:id="@+id/btn_insert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+        android:text="등록"
+        android:textSize="20dp"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>
