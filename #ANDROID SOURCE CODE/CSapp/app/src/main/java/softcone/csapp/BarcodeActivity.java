@@ -35,6 +35,7 @@ public class BarcodeActivity extends Activity {
         item_code = result.getContents();
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Item");
+
         query.whereEqualTo("barcode", item_code);
 
         query.getFirstInBackground(new GetCallback<ParseObject>() {

@@ -17,6 +17,7 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+import softcone.csapp.MainActivity;
 import softcone.csapp.R;
 import softcone.csapp.list.SearchAdapter;
 
@@ -30,6 +31,13 @@ public class SearchFragment extends Fragment {
     private ListView listView;
     private ArrayList<ParseObject> datas = new ArrayList<>();
     public SearchAdapter adapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ((MainActivity) getActivity()).setActionBarTitle("검색");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,39 +54,35 @@ public class SearchFragment extends Fragment {
     }
 
     private SearchView.OnQueryTextListener queryListener = new SearchView.OnQueryTextListener() {
+        // 검색 버튼을 클릭할 경우 발생하는 이벤트
         @Override
         public boolean onQueryTextSubmit(String query) {
-
             // 서버에 Item class 데이터 요청
             ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Life");
 
-            // 서버에 이름이 같은 데이터만 검색
-            parseQuery.whereEqualTo("name", query);
+            // 서버에 이름이 포함되는 데이터만 검색
+            parseQuery.whereContains("name", query);
 
             parseQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> parseObjects, ParseException e) {
                     if (e == null) {
-
                         datas.clear();
-
                         // 읽어온 데이터를 List 에 저장
                         datas.addAll(parseObjects);
-
                         listView.setAdapter(adapter);
                     }
                 }
             });
-
             return false;
         }
 
+        // 검색을 하는 중에 발생하는 이벤트
         @Override
         public boolean onQueryTextChange(String newText) {
-
             if (!newText.isEmpty()) {
                 // 서버에 Item class 데이터 요청
-                ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Item");
+                ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery("Life");
 
                 // 서버에 이름이 포함되는 데이터만 검색
                 parseQuery.whereContains("name", newText);
@@ -87,21 +91,17 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void done(List<ParseObject> parseObjects, ParseException e) {
                         if (e == null) {
-
                             datas.clear();
 
                             // 읽어온 데이터를 List 에 저장
                             datas.addAll(parseObjects);
-
                             listView.setAdapter(adapter);
                         }
                     }
                 });
             }
-
             return false;
         }
-
     };
 
 }

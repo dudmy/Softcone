@@ -6,17 +6,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ToggleButton;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 import com.rey.material.widget.Button;
+import com.rey.material.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import softcone.csapp.MainActivity;
 import softcone.csapp.R;
 import softcone.csapp.list.ExpandingListView;
 import softcone.csapp.list.NoticeAdapter;
@@ -31,16 +34,17 @@ public class NoticeFragment extends Fragment {
     private ArrayList<NoticeData> arrayList;
     public NoticeAdapter adapter;
 
-    private com.rey.material.widget.EditText edit_title;
-    private com.rey.material.widget.EditText edit_info;
+    private EditText edit_title;
+    private EditText edit_info;
     private Button btn_notice_insert;
-    private ToggleButton toggle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        arrayList = new ArrayList<NoticeData>();
+        ((MainActivity) getActivity()).setActionBarTitle("공지사항");
+
+        arrayList = new ArrayList<>();
         adapter = new NoticeAdapter(getActivity(), arrayList);
     }
 
@@ -51,10 +55,9 @@ public class NoticeFragment extends Fragment {
 
         listView = (ExpandingListView) v.findViewById(R.id.lv_notice);
 
-        edit_title = (com.rey.material.widget.EditText) v.findViewById(R.id.edit_title);
-        edit_info = (com.rey.material.widget.EditText) v.findViewById(R.id.edit_info);
+        edit_title = (EditText) v.findViewById(R.id.edit_title);
+        edit_info = (EditText) v.findViewById(R.id.edit_info);
         btn_notice_insert = (Button) v.findViewById(R.id.btn_notice_insert);
-        toggle = (ToggleButton) v.findViewById(R.id.toggle);
 
         return v;
     }
@@ -66,35 +69,63 @@ public class NoticeFragment extends Fragment {
         // 서버에 Item class 데이터 요청
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Notice");
 
+        query.orderByDescending("createdAt");
+        query.whereEqualTo("username", MainActivity.username);
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null) {
-
                     // 받아온 데이터 리스트를 돌면서 NoticeData 추가
                     for (ParseObject po : parseObjects) {
                         arrayList.add(new NoticeData(po.getObjectId(), po.getBoolean("toggle"),
-                                po.getString("title"), po.getString("info"), po.getCreatedAt(), 170));
+                            po.getString("title"), po.getString("info"), po.getCreatedAt(), 170));
                     }
-
                     listView.setAdapter(adapter);
                 }
             }
         });
 
+        // 새로운 공지 등록
         btn_notice_insert.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 ParseObject notice = new ParseObject("Notice");
+
                 notice.put("info", edit_info.getText().toString());
                 notice.put("title", edit_title.getText().toString());
                 notice.put("toggle", true);
-                notice.saveInBackground();
+                notice.put("username", MainActivity.username);
 
-                listView.deferNotifyDataSetChanged();
+                notice.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        addNewNotice();
+                    }
+                });
             }
         });
+    }
 
+    // 화면 갱신을 위한 메소드
+    public void addNewNotice() {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Notice");
+
+        query.whereEqualTo("username", MainActivity.username);
+        query.orderByDescending("createdAt");
+
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject po, ParseException e) {
+
+                if (e == null) {
+                    arrayList.add(new NoticeData(po.getObjectId(), po.getBoolean("toggle"),
+                            po.getString("title"), po.getString("info"), po.getCreatedAt(), 170));
+                    adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
     }
 
 

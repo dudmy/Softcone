@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.parse.ParseUser;
+
 import softcone.csapp.component.HomeFragment;
 import softcone.csapp.component.NoticeFragment;
 import softcone.csapp.component.OptionFragment;
@@ -34,11 +36,16 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private Button btn_search;
     private Button btn_barcode;
 
+    public static String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        username = currentUser.getUsername().toString();
 
         backPressClose = new BackPressClose(this);
 
@@ -56,6 +63,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         currentFragment = FRAGMENT_HOME;
         setFragment(currentFragment);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(LoadingActivity.resume_bool)
+            setFragment(currentFragment);
     }
 
     public void setFragment(int newIndex) {
@@ -122,6 +136,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 startActivity(new Intent(this, BarcodeActivity.class));
                 break;
         }
+    }
+
+    // 액션바 타이틀 변경
+    public void setActionBarTitle(String title) {
+        getSupportActionBar().setTitle(title);
     }
 
     // 뒤로가기 두 번 누를 시 호출

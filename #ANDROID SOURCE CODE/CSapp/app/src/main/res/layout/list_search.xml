@@ -2,30 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:gravity="center_vertical">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:id="@+id/search_item_name"
         android:text="허니버터칩"
-        android:textSize="18dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/search_item_day"
-        android:text="D-Day"
         android:textSize="18dp"
-        android:layout_weight="0.5" />
+        android:paddingLeft="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/search_item_time"
-        android:text="13:00:00"
-        android:textSize="18dp"
-        android:layout_weight="0.3" />
+        android:layout_weight="0.5"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_item_day"
+            android:text="D-Day"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_item_time"
+            android:text="13:00"
+            android:textSize="15dp" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -6,10 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import com.parse.GetCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +29,7 @@ public class NoticeAdapter extends ArrayAdapter<NoticeData> {
     private Context context;
     ArrayList<NoticeData> arrData;
     private LayoutInflater inflater;
+    private String object_id="";
 
     public NoticeAdapter(Context c, ArrayList<NoticeData> arr){
         super(c, 0, arr);
@@ -53,7 +59,7 @@ public class NoticeAdapter extends ArrayAdapter<NoticeData> {
             convertView = inflater.inflate(R.layout.list_notice, parent, false);
         }
 
-        NoticeData object = arrData.get(position);
+        final NoticeData object = arrData.get(position);
 
         LinearLayout linearLayout = (LinearLayout)(convertView.findViewById(
                 R.id.item_linear_layout));
@@ -61,8 +67,74 @@ public class NoticeAdapter extends ArrayAdapter<NoticeData> {
                 (AbsListView.LayoutParams.MATCH_PARENT, object.getCollapsedHeight());
         linearLayout.setLayoutParams(linearLayoutParams);
 
-        ToggleButton toogle = (ToggleButton)convertView.findViewById(R.id.toggle);
-        toogle.setChecked(object.isToggle());
+        final ToggleButton toggle = (ToggleButton)convertView.findViewById(R.id.toggle);
+        toggle.setChecked(object.isToggle());
+        /*
+        toggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Notice");
+                query.whereEqualTo("title", object.getNotice_title());
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject po, ParseException e) {
+                        if (e == null) {
+                            object_id = po.getString("objectId");
+                        }
+                    }
+                });
+
+                // Retrieve the object by id
+                query.getInBackground(object_id, new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject parseObject, com.parse.ParseException e) {
+                        if (e == null) {
+                            // Now let's update it with some new data. In this case, only cheatMode and score
+                            // will get sent to the Parse Cloud. playerName hasn't changed.
+                            parseObject.put("toggle", toggle.isChecked());
+                            parseObject.saveInBackground();
+                        }
+                    }
+                });
+            }
+        });*/
+
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Notice");
+
+                    // Retrieve the object by id
+                    query.getInBackground(object.getObjectId(), new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, com.parse.ParseException e) {
+                            if (e == null) {
+                                // Now let's update it with some new data. In this case, only cheatMode and score
+                                // will get sent to the Parse Cloud. playerName hasn't changed.
+                                parseObject.put("toggle", true);
+                                parseObject.saveInBackground();
+                            }
+                        }
+                    });
+                } else {
+                    // The toggle is disabled
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Notice");
+
+                    // Retrieve the object by id
+                    query.getInBackground(object.getObjectId(), new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, com.parse.ParseException e) {
+                            if (e == null) {
+                                // Now let's update it with some new data. In this case, only cheatMode and score
+                                // will get sent to the Parse Cloud. playerName hasn't changed.
+                                parseObject.put("toggle", false);
+                                parseObject.saveInBackground();
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
         TextView notice_title = (TextView)convertView.findViewById(R.id.notice_title);
         notice_title.setText(object.getNotice_title());

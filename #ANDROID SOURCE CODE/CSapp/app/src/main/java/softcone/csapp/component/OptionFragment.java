@@ -1,32 +1,41 @@
 package softcone.csapp.component;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import com.rey.material.widget.EditText;
 
 import com.parse.ParseUser;
-import com.rey.material.widget.Spinner;
 
+import softcone.csapp.LoginActivity;
+import softcone.csapp.MainActivity;
 import softcone.csapp.R;
-import softcone.csapp.manager.SPreference;
+import softcone.csapp.manager.SharedPreference;
 
 /**
  * Created by YuJin on 2015-06-09.
  */
 public class OptionFragment extends Fragment implements View.OnClickListener{
 
-    String[] time = {"1", "5", "10"};
-
-    String user;
     TextView tvUser;
     Button btnLogout;
-    Spinner spinTime;
+    EditText et_time;
+    SharedPreference pref;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        ((MainActivity) getActivity()).setActionBarTitle("설정");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,16 +43,13 @@ public class OptionFragment extends Fragment implements View.OnClickListener{
 
         tvUser = (TextView) v.findViewById(R.id.tv_user);
         btnLogout = (Button) v.findViewById(R.id.btn_logout);
-        spinTime = (Spinner) v.findViewById(R.id.spin_time);
+        et_time = (EditText) v.findViewById(R.id.et_time);
 
         btnLogout.setOnClickListener(this);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.row_spn, time);
-        adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
-        spinTime.setAdapter(adapter);
+        pref = new SharedPreference(getActivity());
+        et_time.setText(pref.getValue("alarm_time", "30"));
 
-        SPreference pref = new SPreference(getActivity());
-        spinTime.setSelection(pref.getValue("select_num", 0));
         return v;
     }
 
@@ -51,20 +57,19 @@ public class OptionFragment extends Fragment implements View.OnClickListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Retrieve current user from Parse.com
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        tvUser.setText("You are logged in as " + MainActivity.username);
 
-        // Convert currentUser into String
-        user = currentUser.getUsername().toString();
-
-        tvUser.setText("You are logged in as " + user);
-
-        spinTime.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+        et_time.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemSelected(Spinner spinner, View view, int i, long l) {
-                SPreference pref = new SPreference(getActivity());
-                pref.put("select_num", spinTime.getSelectedItemPosition());
-                pref.put("alarm_time", time[spinTime.getSelectedItemPosition()]);
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 알람 시간 변경 시 저장하기
+                pref.put("alarm_time", et_time.getText().toString());
             }
         });
     }
@@ -75,6 +80,7 @@ public class OptionFragment extends Fragment implements View.OnClickListener{
             case R.id.btn_logout:
                 ParseUser.logOut();
                 getActivity().finish();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
                 break;
         }
     }

@@ -13,6 +13,8 @@ import com.parse.ParseUser;
  */
 public class LoadingActivity extends Activity {
 
+    public static boolean resume_bool = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +29,7 @@ public class LoadingActivity extends Activity {
                 if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
 
                     // If user is anonymous, send the user to LoginActivity.class
-                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                     finish();
 
                 } else {
@@ -40,15 +41,14 @@ public class LoadingActivity extends Activity {
                     if (currentUser != null) {
 
                         // Send logged in users to MainActivity.class
-                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), NoticeDialog.class));
                         finish();
 
                     } else {
 
                         // Send user to LoginActivity.class
-                        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         finish();
 
                     }

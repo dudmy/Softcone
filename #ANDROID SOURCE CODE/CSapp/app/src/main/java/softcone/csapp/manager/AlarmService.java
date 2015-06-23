@@ -25,7 +25,7 @@ public class AlarmService extends Service {
     Thread thread;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
     int timeGap;
     int alarmTime;
@@ -34,54 +34,53 @@ public class AlarmService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        SPreference pref = new SPreference(this);
+        SharedPreference pref = new SharedPreference(this);
         alarmTime = Integer.parseInt(pref.getValue("alarm_time", "1"));
 
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (!thread.isInterrupted()) {
+            while (!thread.isInterrupted()) {
+                // 오늘 날짜 가져오기
+                final Date now = new Date();
 
-                    // 오늘 날짜 가져오기
-                    final Date now = new Date();
+                // 서버에 Item class 데이터 요청
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Life");
 
-                    // 서버에 Item class 데이터 요청
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Life");
+                // 오늘 날짜에 해당하는 것만 검색
+                query.whereEqualTo("day", dateFormat.format(now));
 
-                    // 오늘 날짜에 해당하는 것만 검색
-                    query.whereEqualTo("day", dateFormat.format(now));
-
-                    query.findInBackground(new FindCallback<ParseObject>() {
+                query.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> parseObjects, ParseException e) {
-                            if (e == null) {
-                                for (ParseObject po : parseObjects) {
+                    if (e == null) {
+                        for (ParseObject po : parseObjects) {
 
-                                    String[] itemTime = po.getString("time").split(":");
-                                    String[] nowTime = timeFormat.format(now).split(":");
-                                    timeGap = Integer.parseInt(itemTime[1]) - Integer.parseInt(nowTime[1]);
+                            // 현재 시간과 유통기한 시간과 차이 구하기
+                            String[] itemTime = po.getString("time").split(":");
+                            String[] nowTime = timeFormat.format(now).split(":");
+                            timeGap = Integer.parseInt(itemTime[1]) - Integer.parseInt(nowTime[1]);
 
-                                    // 폐기 시간 alarmTime 분 전에 푸시
-                                    if (itemTime[0].equals(nowTime[0]) && timeGap == alarmTime) {
+                            // 폐기 시간 alarmTime 분 전에 푸시
+                            if (itemTime[0].equals(nowTime[0]) && timeGap == alarmTime) {
 
-                                        ParseQuery pushQuery = ParseInstallation.getQuery();
-                                        pushQuery.whereEqualTo("channels", "csapp");
+                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                                pushQuery.whereEqualTo("channels", "csapp");
 
-                                        ParsePush push = new ParsePush();
-                                        push.setQuery(pushQuery);
-                                        push.setMessage(po.getString("name") + " 폐기 " +
-                                                String.valueOf(alarmTime) + "분 전 입니다.");
-                                        push.sendInBackground();
-
-                                    }
+                                ParsePush push = new ParsePush();
+                                push.setQuery(pushQuery);
+                                push.setMessage(po.getString("name") + " 폐기 " +
+                                        String.valueOf(alarmTime) + "분 전 입니다.");
+                                push.sendInBackground();
                                 }
                             }
                         }
+                        }
                     });
 
-                    // 1분 마다 Thread 돌리기
-                    SystemClock.sleep(100000);
-                }
+                // 31초 마다 Thread 돌리기
+                SystemClock.sleep(31000);
+            }
             }
         });
 

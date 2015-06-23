@@ -1,9 +1,10 @@
 package softcone.csapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,15 +13,22 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.rey.material.widget.Spinner;
 
 /**
  * Created by YuJin on 2015-06-09.
  */
-public class LoginActivity extends Activity implements View.OnClickListener{
+public class LoginActivity extends ActionBarActivity implements View.OnClickListener{
 
     String shop, branch, password, username;
     Button btnLogin, btnSignUp;
-    EditText edtShop, edtBranch, edtPassword;
+    EditText edtPassword;
+    private String[] string_shop = {"CU", "GS25", "세븐일레븐"};
+    private String[] string_branch = {"한성대점"};
+
+    private Spinner spinner_shop;
+    private Spinner spinner_branch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +36,17 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        edtShop = (EditText)findViewById(R.id.edt_shop);
-        edtBranch = (EditText)findViewById(R.id.edt_branch);
+
+        spinner_shop = (Spinner)findViewById(R.id.spinner_shop);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.row_spn, string_shop);
+        adapter.setDropDownViewResource(R.layout.row_spn_dropdown);
+        spinner_shop.setAdapter(adapter);
+
+        spinner_branch = (Spinner)findViewById(R.id.spinner_branch);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getApplicationContext(), R.layout.row_spn, string_branch);
+        adapter2.setDropDownViewResource(R.layout.row_spn_dropdown);
+        spinner_branch.setAdapter(adapter2);
+
         edtPassword = (EditText)findViewById(R.id.edt_password);
 
         btnLogin = (Button)findViewById(R.id.btn_login);
@@ -47,8 +64,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
             // Login Button
             case R.id.btn_login:
-                shop = edtShop.getText().toString();
-                branch = edtBranch.getText().toString();
+                shop = string_shop[spinner_shop.getSelectedItemPosition()];
+                branch = string_branch[spinner_branch.getSelectedItemPosition()];
                 password = edtPassword.getText().toString();
                 username = shop + "/" + branch;
 
@@ -58,8 +75,9 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     public void done(ParseUser parseUser, ParseException e) {
                         if (parseUser != null) {
                             // If user exist and authenticated, send user to MainActivity.class
-                            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                            startActivity(intent);
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), NoticeDialog.class));
+
                             Toast.makeText(getBaseContext(), "Successfully Logged in", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
@@ -71,8 +89,8 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
             // Sign up Button
             case R.id.btn_signUp:
-                shop = edtShop.getText().toString();
-                branch = edtBranch.getText().toString();
+                shop = string_shop[spinner_shop.getSelectedItemPosition()];
+                branch = string_branch[spinner_branch.getSelectedItemPosition()];
                 password = edtPassword.getText().toString();
                 username = shop + "/" + branch;
 

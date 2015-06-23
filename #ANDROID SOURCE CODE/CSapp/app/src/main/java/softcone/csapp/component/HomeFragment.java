@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import softcone.csapp.MainActivity;
 import softcone.csapp.R;
 
 
@@ -27,6 +28,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ((MainActivity) getActivity()).setActionBarTitle(MainActivity.username);
     }
 
     @Override

@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.rey.material.widget.Button;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
@@ -24,6 +27,7 @@ public class InsertActivity2 extends ActionBarActivity implements
     private TextView tv_time;
     private Button btn_time;
     private Button btn_insert;
+    private ParseImageView item_img;
 
     private String text_date="";
     private String text_time="";
@@ -55,6 +59,14 @@ public class InsertActivity2 extends ActionBarActivity implements
         btn_time.setOnClickListener(this);
         btn_insert.setOnClickListener(this);
 
+        item_img = (ParseImageView)findViewById(R.id.item_img);
+
+        item_img.setParseFile(BarcodeActivity.life_object.getParseFile("image"));
+        item_img.loadInBackground(new GetDataCallback() {
+            @Override
+            public void done(byte[] bytes, ParseException e) {}
+        });
+
         if (savedInstanceState != null) {
             DatePickerDialog dpd = (DatePickerDialog) getSupportFragmentManager().findFragmentByTag(DATEPICKER_TAG);
             if (dpd != null) {
@@ -81,12 +93,16 @@ public class InsertActivity2 extends ActionBarActivity implements
                 break;
 
             case R.id.btn_insert:
+                
+                LoadingActivity.resume_bool = true;
+
                 ParseObject life = new ParseObject("Life");
                 life.put("barcode", BarcodeActivity.life_object.getString("barcode"));
                 life.put("image", BarcodeActivity.life_object.getParseFile("image"));
                 life.put("name", BarcodeActivity.life_object.getString("name"));
                 life.put("day", life_date);
                 life.put("time", life_time);
+                life.put("username", MainActivity.username);
                 life.saveInBackground();
                 finish();
                 break;
@@ -106,8 +122,8 @@ public class InsertActivity2 extends ActionBarActivity implements
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        text_time = hourOfDay + "시 " + minute + "분";
-        life_time = hourOfDay + ":" + minute + ":00";
+        text_time = hourOfDay + ":" + minute;
+        life_time = hourOfDay + ":" + minute;
         tv_time.setText(text_date + text_time);
     }
 

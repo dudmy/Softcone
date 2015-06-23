@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import softcone.csapp.MainActivity;
 import softcone.csapp.R;
 import softcone.csapp.list.ItemAdapter;
 
@@ -84,12 +85,14 @@ public class HomeChildFragment extends Fragment {
         // 서버에 Item class 데이터 요청
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Life");
 
+        query.whereEqualTo("username", MainActivity.username);
+
         switch (position) {
             case 0:
                 // 오늘 날짜에 해당하는 것만 검색
                 query.whereEqualTo("day", format.format(now));
+                query.orderByAscending("time");
                 break;
-
             case 1:
                 // 해당 주의 마지막 날짜 : 토요일
                 cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
@@ -97,11 +100,12 @@ public class HomeChildFragment extends Fragment {
                 query.whereGreaterThanOrEqualTo("day", format.format(now));
                 // 이번 주 마지막 날 이전
                 query.whereLessThanOrEqualTo("day", format.format(cal.getTime()));
+                query.orderByAscending("day");
                 break;
-
             case 2:
-                // 오늘 날짜 이후
+                // 오늘 날짜 이후 전체
                 query.whereGreaterThanOrEqualTo("day", format.format(now));
+                query.orderByAscending("day");
                 break;
         }
 
@@ -111,14 +115,11 @@ public class HomeChildFragment extends Fragment {
                 if (e == null) {
                     // 읽어온 데이터를 List 에 저장
                     datas.addAll(parseObjects);
-
                     listView.setAdapter(adapter);
                 }
             }
         });
-
     }
-
 
     private void alertDelete(final int po) {
         SweetAlertDialog dialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE);
@@ -131,7 +132,7 @@ public class HomeChildFragment extends Fragment {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         sDialog.setTitleText("삭제 취소!")
-                                .setContentText("제품의 폐기여부를 확인하세요.")
+                                .setContentText("해당 제품 삭제를 취소했습니다.")
                                 .setConfirmText("OK")
                                 .showCancelButton(false)
                                 .setCancelClickListener(null)
@@ -152,6 +153,9 @@ public class HomeChildFragment extends Fragment {
 
                         // 데이터베이스에서 지우기
                         datas.get(po).deleteInBackground();
+
+                        datas.remove(po);
+                        adapter.notifyDataSetChanged();
                     }
                 })
                 .show();
