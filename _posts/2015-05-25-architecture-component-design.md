@@ -13,6 +13,8 @@ header-img: "public/img/post-bg.jpg"
 ![아키텍쳐 이미지](/Softcone/public/img/0525architecture.png)  
 
 
+---
+
 
 ###컴포넌트 설계  
 
