@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      인터페이스 설계
+title:      상세설계서 - 인터페이스 설계
 subtitle:   
 date:       2015-06-17
 header-img: "public/img/post-bg.jpg"

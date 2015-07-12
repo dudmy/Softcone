@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      테스트케이스 설계
+title:      상세설계서 - 테스트케이스 설계
 subtitle:   
 date:       2015-06-18
 header-img: "public/img/post-bg.jpg"
