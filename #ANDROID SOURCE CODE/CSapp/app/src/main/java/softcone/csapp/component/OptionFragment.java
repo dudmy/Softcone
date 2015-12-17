@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.rey.material.widget.EditText;
 
 import com.parse.ParseUser;
@@ -29,7 +31,9 @@ public class OptionFragment extends Fragment implements View.OnClickListener{
     Button btnLogout;
     EditText et_time;
     SharedPreference pref;
-
+    com.rey.material.widget.Switch sw_option1;
+    com.rey.material.widget.Switch sw_option2;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +48,12 @@ public class OptionFragment extends Fragment implements View.OnClickListener{
         tvUser = (TextView) v.findViewById(R.id.tv_user);
         btnLogout = (Button) v.findViewById(R.id.btn_logout);
         et_time = (EditText) v.findViewById(R.id.et_time);
+        sw_option1 = (com.rey.material.widget.Switch) v.findViewById(R.id.sw_option1);
+        sw_option2 = (com.rey.material.widget.Switch) v.findViewById(R.id.sw_option2);
 
         btnLogout.setOnClickListener(this);
+        sw_option1.setOnClickListener(this);
+        sw_option2.setOnClickListener(this);
 
         pref = new SharedPreference(getActivity());
         et_time.setText(pref.getValue("alarm_time", "30"));
@@ -81,6 +89,10 @@ public class OptionFragment extends Fragment implements View.OnClickListener{
                 ParseUser.logOut();
                 getActivity().finish();
                 startActivity(new Intent(getActivity(), LoginActivity.class));
+                break;
+            case R.id.sw_option1:
+            case R.id.sw_option2:
+                Toast.makeText(getActivity().getBaseContext(), "해당 기능은 동작하지 않습니다.", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

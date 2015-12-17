@@ -23,8 +23,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     String shop, branch, password, username;
     Button btnLogin, btnSignUp;
     EditText edtPassword;
-    private String[] string_shop = {"CU", "GS25", "세븐일레븐"};
-    private String[] string_branch = {"한성대점"};
+    private String[] string_shop = {"TEST"};
+    private String[] string_branch = {"테스트점"};
 
     private Spinner spinner_shop;
     private Spinner spinner_branch;
@@ -81,7 +81,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                             Toast.makeText(getBaseContext(), "Successfully Logged in", Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
-                            Toast.makeText(getBaseContext(), "No such user exist, please sign up", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "TEST ID 비밀번호는 1234 입니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
